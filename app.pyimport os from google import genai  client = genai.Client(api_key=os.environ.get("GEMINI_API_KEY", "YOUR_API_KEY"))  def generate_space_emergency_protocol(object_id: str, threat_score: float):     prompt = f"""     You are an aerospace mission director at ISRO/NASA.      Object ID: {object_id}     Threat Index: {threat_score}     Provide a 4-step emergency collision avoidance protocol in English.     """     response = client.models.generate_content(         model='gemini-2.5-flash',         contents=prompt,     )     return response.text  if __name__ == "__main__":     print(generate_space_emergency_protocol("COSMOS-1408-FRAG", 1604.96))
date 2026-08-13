@@ -1,0 +1,20 @@
+import os
+from google import genai
+
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
+
+def generate_space_emergency_protocol(object_id: str, threat_score: float):
+    prompt = f"""
+    You are an aerospace mission director at ISRO/NASA. 
+    Object ID: {object_id}
+    Threat Index: {threat_score}
+    Provide a 4-step emergency collision avoidance protocol in English.
+    """
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+    )
+    return response.text
+
+if __name__ == "__main__":
+    print(generate_space_emergency_protocol("COSMOS-1408-FRAG", 1604.96))
